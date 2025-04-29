@@ -56,6 +56,11 @@ public class StudentService {
             return m;
         m.put("major",s.getMajor());
         m.put("className",s.getClassName());
+        // 添加学生入学前信息
+        m.put("preGraduateSchool", s.getPreGraduateSchool()); // 毕业学校
+        m.put("preRank", s.getPreRank()); // 高考排名
+        m.put("preProvince", s.getPreProvince()); // 生源省份
+        m.put("preExamScore", s.getPreExamScore()); // 高考成绩
         p = s.getPerson();
         if(p == null)
             return m;
@@ -163,7 +168,15 @@ public class StudentService {
             u.setPersonId(personId);
             u.setUserName(num);
             u.setPassword(password);
-            u.setUserType(userTypeRepository.findByName(EUserType.ROLE_STUDENT));
+            //修改前u.setUserType(userTypeRepository.findByName(EUserType.ROLE_STUDENT));
+            //修改后
+            UserType roleStudent = userTypeRepository.findByName(EUserType.ROLE_STUDENT.name());
+            if (roleStudent != null) {
+                u.setUserType(roleStudent);
+            } else {
+                log.error("找不到学生角色：ROLE_STUDENT");
+                return CommonMethod.getReturnMessageError("系统错误：找不到学生角色");
+            }
             u.setCreateTime(DateTimeTool.parseDateTime(new Date()));
             u.setCreatorId(CommonMethod.getPersonId());
             userRepository.saveAndFlush(u); //插入新的User记录
@@ -195,6 +208,11 @@ public class StudentService {
         personRepository.save(p);  // 修改保存人员信息
         s.setMajor(CommonMethod.getString(form, "major"));
         s.setClassName(CommonMethod.getString(form, "className"));
+        // 保存学生入学前信息
+        s.setPreGraduateSchool(CommonMethod.getString(form, "preGraduateSchool")); // 毕业学校
+        s.setPreRank(CommonMethod.getInteger(form, "preRank")); // 高考排名
+        s.setPreProvince(CommonMethod.getString(form, "preProvince")); // 生源省份
+        s.setPreExamScore(CommonMethod.getInteger(form, "preExamScore")); // 高考成绩
         studentRepository.save(s);  //修改保存学生信息
         systemService.modifyLog(s,isNew);
         return CommonMethod.getReturnData(s.getPersonId());  // 将personId返回前端

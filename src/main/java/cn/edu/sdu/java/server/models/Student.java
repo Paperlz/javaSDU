@@ -37,4 +37,14 @@ public class Student {
     @Size(max = 50)
     private String className;
 
+    @Size(max = 50)
+    private String preGraduateSchool; // 毕业学校
+
+    private Integer preRank; // 高考排名
+
+    @Size(max = 30)
+    private String preProvince; // 生源省份
+
+    private Integer preExamScore; // 高考成绩
+
 }
