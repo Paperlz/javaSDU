@@ -9,9 +9,9 @@ spring:
   application:
     name: java-server
   datasource:
-    url: jdbc:mysql://202.194.14.120:3306/java_db?allowPublicKeyRetrieval=true&useSSL=false
-    username: java_server
-    password: JavaServer2025@
+    url: jdbc:mysql://202.194.14.120:3306/java_1_33?allowPublicKeyRetrieval=true&useSSL=false
+    username: java_1_33
+    password: JavaP133@
 #    url: jdbc:mysql://202.194.14.120:3306/java_1_01?allowPublicKeyRetrieval=true&useSSL=false
 #    username: java_1_01
 #    password: JavaP101@
@@ -32,7 +32,8 @@ spring:
       enabled: true
       force: true
 attach:
-  folder: /teach-2025/
+  folder: ${UPLOAD_DIR:./uploads/}
+# folder: teach-2025
 #logging:
 #  config: classpath:loggback.xml
 logging:
